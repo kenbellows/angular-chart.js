@@ -13,9 +13,8 @@
 }(function (angular, Chart) {
   'use strict';
 
-  Chart.defaults.global.responsive = true;
-  Chart.defaults.global.multiTooltipTemplate = '<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%= value %>';
-
+  // TODO: looks like this isn't a thing anymore; figure out what happened to it
+  /*
   Chart.defaults.global.colours = [
     '#97BBCD', // blue
     '#DCDCDC', // light grey
@@ -25,22 +24,26 @@
     '#949FB1', // grey
     '#4D5360'  // dark grey
   ];
+  */
 
+  // TODO: Pretty sure this isn't a thing anymore either, but research this G_vmlCanvasManager stuff
   var usingExcanvas = typeof window.G_vmlCanvasManager === 'object' &&
     window.G_vmlCanvasManager !== null &&
     typeof window.G_vmlCanvasManager.initElement === 'function';
 
   if (usingExcanvas) Chart.defaults.global.animation = false;
 
+
+  // CHANGE: converted directives to array declaration syntax for minification purposes
   return angular.module('chart.js', [])
     .provider('ChartJs', ChartJsProvider)
     .factory('ChartJsFactory', ['ChartJs', '$timeout', ChartJsFactory])
-    .directive('chartBase', function (ChartJsFactory) { return new ChartJsFactory(); })
-    .directive('chartLine', function (ChartJsFactory) { return new ChartJsFactory('Line'); })
-    .directive('chartBar', function (ChartJsFactory) { return new ChartJsFactory('Bar'); })
-    .directive('chartRadar', function (ChartJsFactory) { return new ChartJsFactory('Radar'); })
-    .directive('chartDoughnut', function (ChartJsFactory) { return new ChartJsFactory('Doughnut'); })
-    .directive('chartPie', function (ChartJsFactory) { return new ChartJsFactory('Pie'); })
+    .directive('chartBase', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory(); }])
+    .directive('chartLine', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Line'); }])
+    .directive('chartBar', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Bar'); }])
+    .directive('chartRadar', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Radar'); }])
+    .directive('chartDoughnut', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Doughnut'); }])
+    .directive('chartPie', ['ChartJsFactory', function (ChartJsFactory) { return new ChartJsFactory('Pie'); }])
     .directive('chartPolarArea', function (ChartJsFactory) { return new ChartJsFactory('PolarArea'); });
 
   /**
