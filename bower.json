@@ -40,7 +40,8 @@
   ],
   "dependencies": {
     "angular": "1.x",
-    "Chart.js": "~1.0.1"
+    "Chart.js": "~1.0.1",
+    "Chart2.js": "nnnick/Chart.js#2.0.0-alpha4"
   },
   "devDependencies": {
     "Chart.StackedBar.js": "~1.0.1",
